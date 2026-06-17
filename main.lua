@@ -1,19 +1,15 @@
--- Yükleme ve Başlatma Ekranı
-
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield '))()
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Workspace = game:GetService("Workspace")
+local workspace = game:GetService("Workspace")
 
-local roomsFolder = Workspace:FindFirstChild("Rooms")
+local roomsFolder = workspace:FindFirstChild("Rooms")
 local roomModels = {}
 
--- Geçerli oda kontrolü
 local function isValidRoom(model)
 	return model:IsA("Model") and tonumber(model.Name) ~= nil
 end
 
--- Odaları temizleme işlevi (Hile korumalarını engellemek için)
 local function processRoom(roomModel)
 	for _, obj in ipairs(roomModel:GetChildren()) do
 		if obj.Name ~= "Exit" and obj.Name ~= "VaultEntrance" and obj.Name ~= "SafeRoom" then
@@ -27,7 +23,6 @@ local function processRoom(roomModel)
 	end)
 end
 
--- Oda listesini güncelle
 local function updateRoomList()
 	roomModels = {}
 	for _, model in ipairs(roomsFolder:GetChildren()) do
@@ -40,14 +35,12 @@ local function updateRoomList()
 	end)
 end
 
--- Tüm odaları işle
 local function processAllRooms()
 	for _, room in ipairs(roomModels) do
 		processRoom(room.model)
 	end
 end
 
--- Gereksiz RemoteEvent'leri temizle (Yakalanmamak için)
 local function cleanupRemotes()
 	for _, obj in ipairs(ReplicatedStorage:GetDescendants()) do
 		if (obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction"))
@@ -59,7 +52,6 @@ local function cleanupRemotes()
 	end
 end
 
--- Işınlanma ve Otomatik Tamamlama Mantığı
 local function teleportLogic()
 	local player = game.Players.LocalPlayer
 	local character = player.Character
@@ -68,7 +60,7 @@ local function teleportLogic()
 	local root = character:FindFirstChild("HumanoidRootPart")
 	if not root then return end
 
-	local deathTimer = Workspace:FindFirstChild("DEATHTIMER")
+	local deathTimer = workspace:FindFirstChild("DEATHTIMER")
 	local safeRoom = roomsFolder:FindFirstChild("SafeRoom", true)
 
 	if safeRoom and safeRoom:IsA("Model") then
@@ -94,10 +86,7 @@ local function teleportLogic()
 		local scale = safeRoom:FindFirstChild("Scale")
 		local hitbox = scale and scale:FindFirstChild("hitbox")
 		if hitbox and hitbox:IsA("BasePart") then
-            -- PC Executor uyumluluğu için sethiddenproperty kontrolü
-			if sethiddenproperty then
-				sethiddenproperty(root, "PhysicsRepRootPart", hitbox)
-			end
+			sethiddenproperty(root, "PhysicsRepRootPart", hitbox)
 			root.CFrame = hitbox.CFrame
 		end
 
@@ -126,11 +115,10 @@ local hbGrace
 local childAddedConn
 local childRemovedConn
 
--- Arayüz Oluşturma
 local Window = Rayfield:CreateWindow({
-	Name = "Grace - Türkçe Menü",
-	LoadingTitle = "Grace Script Yükleniyor",
-	LoadingSubtitle = "mafuyu tarafından yapıldı",
+	Name = "Grace",
+	LoadingTitle = "Grace her neyse",
+	LoadingSubtitle = "mafuyu tarafından",
 	Discord = {
 		Enabled = false,
 		Invite = "",
@@ -141,15 +129,15 @@ local Window = Rayfield:CreateWindow({
 
 local MainTab = Window:CreateTab("Ana Menü", "home")
 
-local Section = MainTab:CreateSection("Normal veya Zen Modu")
+local Section = MainTab:CreateSection("Grace Normal [NORMAL VEYA ZEN OYUN MODU]")
 
 MainTab:CreateToggle({
-	Name = "Otomatik Kasılma (Autofarm)",
+	Name = "Otomatik Çiftlik",
 	CurrentValue = false,
 	Flag = "GraceRegular",
 	Callback = function(Value)
 		if Value then
-			Workspace:FindFirstChild("Game"):FindFirstChild("Ready"):FireServer()
+			workspace:FindFirstChild("Game"):FindFirstChild("Ready"):FireServer()
 			updateRoomList()
 			processAllRooms()
 			cleanupRemotes()
@@ -193,7 +181,7 @@ MainTab:CreateToggle({
 })
 
 MainTab:CreateButton({
-	Name = "OP Özellikli Lobi Oluştur",
+	Name = "OP Değiştiricilerle Lobi Oluştur",
 	Callback = function()
 		pcall(function()
 			local args = {
@@ -203,19 +191,84 @@ MainTab:CreateButton({
 					s = 3,
 					m = {
 						ms = {
-							FO = true, Wk = true, uR = true, rw = 2, wR = true, Rp = true,
-							Uo = true, sF = true, qo = 10, wr = true, Tw = true, Sh = true,
-							iO = true, OT = true, PP = 3, FL = true, YT = 3, wW = true,
-							TP = true, yW = true, pr = true, Ss = true, uW = true, yO = true,
-							Wr = true, Yr = true, Ss2 = true, ry = true, FE = true, Ss1 = true,
-							DE = true, qy = true, RQ = 4, WY = true, Wi = true, TQ = true,
-							PY = true, gD = 4, tT = true, qi = true, IY = true, Uu = true,
-							IqB = 3, QI = true, IqS = true, re = true, IQ = true, rP = true,
-							CH = true, ei = true, PR = true, Eu = true, qQ = true, pQ = true,
-							wQ = true, op = true, MIM = true, fP = true, yR = true, Qt = true,
-							yQ = 3, Wq = true, qT = true, Pi = 99, Oi = true, yw = true,
-							OY = 3, Ti = true, TW = true, Wt = true, di = 2, WO = true,
-							IU = true, UQ = true, WP = true, ou = true, CD = 3, wE = 5,
+							FO = true,
+							Wk = true,
+							uR = true,
+							rw = 2,
+							wR = true,
+							Rp = true,
+							Uo = true,
+							sF = true,
+							qo = 10,
+							wr = true,
+							Tw = true,
+							Sh = true,
+							iO = true,
+							OT = true,
+							PP = 3,
+							FL = true,
+							YT = 3,
+							wW = true,
+							TP = true,
+							yW = true,
+							pr = true,
+							Ss = true,
+							uW = true,
+							yO = true,
+							Wr = true,
+							Yr = true,
+							Ss2 = true,
+							ry = true,
+							FE = true,
+							Ss1 = true,
+							DE = true,
+							qy = true,
+							RQ = 4,
+							WY = true,
+							Wi = true,
+							TQ = true,
+							PY = true,
+							gD = 4,
+							tT = true,
+							qi = true,
+							IY = true,
+							Uu = true,
+							IqB = 3,
+							QI = true,
+							IqS = true,
+							re = true,
+							IQ = true,
+							rP = true,
+							CH = true,
+							ei = true,
+							PR = true,
+							Eu = true,
+							qQ = true,
+							pQ = true,
+							wQ = true,
+							op = true,
+							MIM = true,
+							fP = true,
+							yR = true,
+							Qt = true,
+							yQ = 3,
+							Wq = true,
+							qT = true,
+							Pi = 99,
+							Oi = true,
+							yw = true,
+							OY = 3,
+							Ti = true,
+							TW = true,
+							Wt = true,
+							di = 2,
+							WO = true,
+							IU = true,
+							UQ = true,
+							WP = true,
+							ou = true,
+							CD = 3,
+							wE = 5,
 						},
 						vav = true,
 						v = false,
@@ -229,9 +282,10 @@ MainTab:CreateButton({
 	end,
 })
 
-local Section2 = MainTab:CreateSection("Ödüller & Seviye (Reprieve)")
+local Section2 = MainTab:CreateSection("ÖDÜL")
 
 local reprieveValue = 5000
+
 local reprieveButton
 
 local function parseValue(val)
@@ -243,27 +297,27 @@ local function parseValue(val)
 end
 
 MainTab:CreateInput({
-	Name = "XP / Tuğla (Brick) Miktarı",
+	Name = "XP/Tuğla Değeri",
 	PlaceholderText = "5000",
 	RemoveTextAfterFocusLost = false,
 	Callback = function(val)
 		local num = parseValue(val)
 		if num then
 			reprieveValue = num
-			local display = num == math.huge and "Sonsuz" or num == -math.huge and "-Sonsuz" or num ~= num and "Geçersiz" or tostring(num)
-			local lvl = num == math.huge and "Sonsuz" or num == -math.huge and "-Sonsuz" or num ~= num and "Geçersiz" or tostring(math.floor(num / 100))
-			reprieveButton:Set("XP ve Tuğlaları Al [Seviye: " .. lvl .. ", Tuğla: " .. display .. "]")
+			local display = num == math.huge and "inf" or num == -math.huge and "-inf" or num ~= num and "nan" or tostring(num)
+			local lvl = num == math.huge and "inf" or num == -math.huge and "-inf" or num ~= num and "nan" or tostring(math.floor(num / 100))
+			reprieveButton:Set("XP/Tuğla Al [seviyeler: " .. lvl .. ", tuğlalar: " .. display .. "]")
 		end
 	end,
 })
 
 reprieveButton = MainTab:CreateButton({
-	Name = "XP ve Tuğlaları Al [Seviye: 50, Tuğla: 5000]",
+	Name = "XP/Tuğla Al [seviyeler: 50, tuğlalar: 5000]",
 	Callback = function()
 		pcall(function()
-			for _, child in ipairs(Workspace:WaitForChild("Beacons"):GetChildren()) do
+			for _, child in ipairs(workspace:WaitForChild("Beacons"):GetChildren()) do
 				if child.Name == "Part" then
-					Workspace:WaitForChild("Script"):WaitForChild("BeaconPickup"):FireServer(child)
+					workspace:WaitForChild("Script"):WaitForChild("BeaconPickup"):FireServer(child)
 				end
 			end
 			task.wait(2)
@@ -278,16 +332,16 @@ reprieveButton = MainTab:CreateButton({
 					end
 				end
 			end)
-			Workspace:WaitForChild("Script"):WaitForChild("ClaimAwards"):FireServer()
+			workspace:WaitForChild("Script"):WaitForChild("ClaimAwards"):FireServer()
 			ReplicatedStorage:WaitForChild("KillClient"):InvokeServer()
 		end)
 	end,
 })
 
-local Section3 = MainTab:CreateSection("DİĞER SEÇENEKLER")
+local Section3 = MainTab:CreateSection("DİĞER")
 
 MainTab:CreateButton({
-	Name = "Lobiye Geri Dön",
+	Name = "Lobiye Dön",
 	Callback = function()
 		pcall(function()
 			ReplicatedStorage:WaitForChild("byebyemyFRIENDbacktothelobby"):FireServer()
@@ -296,7 +350,7 @@ MainTab:CreateButton({
 })
 
 MainTab:CreateButton({
-	Name = "Taç Satın Al [100 Anahtar Harcar]",
+	Name = "Taç Satın Al [100 anahtar kullanır]",
 	Callback = function()
 		pcall(function()
 			ReplicatedStorage:WaitForChild("BuyKCrown"):InvokeServer()
@@ -305,27 +359,22 @@ MainTab:CreateButton({
 })
 
 MainTab:CreateButton({
-	Name = "Tüm Rozetleri (Badges) Al [Karakteriniz Ölür]",
+	Name = "Rozetleri Al [seni öldürür]",
 	Callback = function()
 		local HttpService = game:GetService("HttpService")
 		local BadgeGotRemote = ReplicatedStorage:WaitForChild("BadgeGot")
-		local httpRequest = http_request or request or syn.request
+		local httpRequest = http_request or request
 		local universeId = game.GameId
-
-		if not httpRequest then
-			Rayfield:Notify({Name = "Hata", Content = "Executor'ınız internet isteklerini (http_request) desteklemiyor!", Duration = 5})
-			return
-		end
 
 		local function getAllBadgeIds()
 			local badgeIds, cursor, url = {}, ""
 			repeat
-				url = ("https://badges.roproxy.com/v1/universes/%d/badges?limit=100&sortOrder=Asc%s"):format(
+				url = ("https://badges.roproxy.com/v1/universes/%d/badges?limit=100&sortOrder=Asc%s "):format(
 					universeId,
 					cursor ~= "" and "&cursor=" .. cursor or ""
 				)
 				local response = httpRequest({ Url = url, Method = "GET" })
-				if not response or response.StatusCode ~= 200 then break id end
+				if not response or response.StatusCode ~= 200 then break end
 				local data = HttpService:JSONDecode(response.Body)
 				for i = 1, #data.data do
 					badgeIds[#badgeIds + 1] = data.data[i].id
