@@ -1,5 +1,4 @@
 -- Yükleme ve Başlatma Ekranı
---loadstring(game:HttpGet("https://raw.githubusercontent.com/mafuasahina/whatever/main/grace"))()
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local RunService = game:GetService("RunService")
